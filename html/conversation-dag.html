@@ -59,12 +59,14 @@
   <div id="title">REGEN TRIBE CONVERSATION HISTORY</div>
   
   <div id="controls">
-    <button onclick="focusTopics()">Topics</button>
-    <button onclick="focusActors()">Actors</button>
-    <button onclick="resetView()">Reset</button>
+    <button id="btn-topics">Topics</button>
+    <button id="btn-actors">Actors</button>
+    <button id="btn-reset">Reset</button>
   </div>
   
-  <script>
+  <script type="module">
+    import * as THREE from 'https://esm.sh/three@0.160.0';
+    
     let graphData;
     
     const Graph = new ForceGraph3D(document.getElementById('graph'))
@@ -104,7 +106,6 @@
         );
       })
       .onNodeClick(node => {
-        // Highlight node connections
         const connected = new Set();
         const nodeLinks = [];
         
@@ -129,22 +130,26 @@
       graphData = Graph.graphData();
     });
     
-    function focusTopics() {
+    window.focusTopics = function() {
       const topics = graphData.nodes.filter(n => n.group === 'Topic');
       if (topics.length) {
         const center = topics[Math.floor(topics.length / 2)];
         Graph.cameraPosition({ x: center.x * 1.5, y: center.y * 1.5, z: 300 }, center, 2000);
       }
-    }
+    };
     
-    function focusActors() {
+    window.focusActors = function() {
       Graph.cameraPosition({ x: 0, y: 0, z: 400 }, { x: 0, y: 0, z: 0 }, 2000);
-    }
+    };
     
-    function resetView() {
+    window.resetView = function() {
       Graph.nodeOpacity(1).nodeColor(n => n.color).linkWidth(1).linkOpacity(1);
       Graph.cameraPosition({ x: 0, y: 0, z: 400 }, { x: 0, y: 0, z: 0 }, 1000);
-    }
+    };
+    
+    document.getElementById('btn-topics').onclick = () => window.focusTopics();
+    document.getElementById('btn-actors').onclick = () => window.focusActors();
+    document.getElementById('btn-reset').onclick = () => window.resetView();
   </script>
 </body>
 </html>

@@ -34,7 +34,9 @@
     <div class="legend-item"><div class="legend-color" style="background:#264653"></div>Roots - Ecology</div>
   </div>
   <div id="title">🌳 Tree of Civilization</div>
-  <script>
+  <script type="module">
+    import * as THREE from 'https://esm.sh/three@0.160.0';
+    
     const Graph = new ForceGraph3D(document.getElementById('graph'))
       .jsonUrl('../data/unified/tree-of-civilization.json')
       .nodeAutoColorBy('group')

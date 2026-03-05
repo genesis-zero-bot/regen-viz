@@ -12,7 +12,9 @@
 </head>
 <body>
   <div id="graph"></div>
-  <script>
+  <script type="module">
+    import * as THREE from 'https://esm.sh/three@0.160.0';
+    
     const Graph = new ForceGraph3D(document.getElementById('graph'))
       .jsonUrl('../data/unified/meta-fractal-dao.json')
       .nodeAutoColorBy('group')

@@ -19,7 +19,9 @@
   <div id="controls">
     <button onclick="resetView()">Reset View</button>
   </div>
-  <script>
+  <script type="module">
+    import * as THREE from 'https://esm.sh/three@0.160.0';
+    
     const Graph = new ForceGraph3D(document.getElementById('graph'))
       .jsonUrl('../data/unified/regen-framework.json')
       .nodeAutoColorBy('group')
@@ -49,9 +51,9 @@
       .linkDirectionalParticleWidth(3)
       .linkDirectionalParticleSpeed(0.008);
     
-    function resetView() {
+    window.resetView = function() {
       Graph.cameraPosition({ x: 0, y: 0, z: 400 }, { x: 0, y: 0, z: 0 });
-    }
+    };
   </script>
 </body>
 </html>

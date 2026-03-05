@@ -4,14 +4,17 @@
   <meta charset="utf-8">
   <title>Regen Tribe - Bloom Effect</title>
   <style>
-    body { margin: 0; background: #000; }
+    body { margin: 0; background: #000; overflow: hidden; }
     #graph { width: 100vw; height: 100vh; }
   </style>
   <script src="//cdn.jsdelivr.net/npm/3d-force-graph"></script>
+  <script src="https://unpkg.com/postprocessing@6.29.2/build/postprocessing.js"></script>
 </head>
 <body>
   <div id="graph"></div>
-  <script>
+  <script type="module">
+    import * as THREE from 'https://esm.sh/three@0.160.0';
+    
     const DATA_URL = '../data/regen-tribe.json';
     
     const Graph = new ForceGraph3D(document.getElementById('graph'))
@@ -40,6 +43,5 @@
         bloomThreshold: 0.1
       }));
   </script>
-  <script src="https://unpkg.com/postprocessing@6.29.2/build/postprocessing.js"></script>
 </body>
 </html>
