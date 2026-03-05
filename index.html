@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regen Viz — 3D Force Graph</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+      color: #e6edf3;
+      min-height: 100vh;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #58a6ff, #3fb950);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      color: #8b949e;
+      margin-bottom: 40px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 24px;
+      transition: transform 0.2s, border-color 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #58a6ff;
+    }
+    .card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: #58a6ff;
+    }
+    .card p {
+      color: #8b949e;
+      font-size: 0.9rem;
+    }
+    .badge {
+      display: inline-block;
+      background: #238636;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌐 Regen Viz</h1>
+  <p class="subtitle">Interactive 3D network visualizations</p>
+  
+  <div class="grid">
+    <a href="https://genesis-zero-bot.github.io/regen-viz/html/basic.html" class="card">
+      <h2>Basic</h2>
+      <p>Simple 3D graph with auto-color</p>
+      <span class="badge">3D</span>
+    </a>
+    
+    <a href="https://genesis-zero-bot.github.io/regen-viz/html/highlight.html" class="card">
+      <h2>Highlight</h2>
+      <p>Interactive hover highlighting</p>
+      <span class="badge">Interactive</span>
+    </a>
+    
+    <a href="https://genesis-zero-bot.github.io/regen-viz/html/tree.html" class="card">
+      <h2>Tree</h2>
+      <p>Tree structure with labels</p>
+      <span class="badge">Labels</span>
+    </a>
+    
+    <a href="https://genesis-zero-bot.github.io/regen-viz/html/curved-links.html" class="card">
+      <h2>Curved Links</h2>
+      <p>Curved edge rendering</p>
+      <span class="badge">Style</span>
+    </a>
+    
+    <a href="https://genesis-zero-bot.github.io/regen-viz/html/directional-links.html" class="card">
+      <h2>Directional</h2>
+      <p>Animated arrows + particles</p>
+      <span class="badge">Animation</span>
+    </a>
+    
+    <a href="https://genesis-zero-bot.github.io/regen-viz/html/bloom-effect.html" class="card">
+      <h2>Bloom</h2>
+      <p>Post-processing glow effect</p>
+      <span class="badge">Effect</span>
+    </a>
+    
+    <a href="https://genesis-zero-bot.github.io/regen-viz/html/camera-orbit.html" class="card">
+      <h2>Camera Orbit</h2>
+      <p>Auto-rotating camera</p>
+      <span class="badge">Camera</span>
+    </a>
+    
+    <a href="https://genesis-zero-bot.github.io/regen-viz/html/controls-orbit.html" class="card">
+      <h2>Orbit Controls</h2>
+      <p>Click-drag rotation</p>
+      <span class="badge">Controls</span>
+    </a>
+    
+    <a href="https://genesis-zero-bot.github.io/regen-viz/html/controls-fly.html" class="card">
+      <h2>Fly Controls</h2>
+      <p>WASD navigation</p>
+      <span class="badge">Navigation</span>
+    </a>
+    
+    <a href="https://genesis-zero-bot.github.io/regen-viz/html/responsive.html" class="card">
+      <h2>Responsive</h2>
+      <p>Auto-resize on window</p>
+      <span class="badge">Responsive</span>
+    </a>
+  </div>
+</body>
+</html>
