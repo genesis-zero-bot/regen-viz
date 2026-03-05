@@ -4,19 +4,22 @@ GitHub Pages repository for interactive 3D network visualizations using [3d-forc
 
 ## Pages Index
 
-| Page | Description | Data Source |
-|------|-------------|-------------|
-| [basic](./html/basic.html) | Basic 3D graph | Generated |
-| [tree](./html/tree.html) | Tree structure | Generated |
-| [highlight](./html/highlight.html) | Interactive highlighting | Generated |
-| [text-nodes](./html/text-nodes.html) | Nodes with labels | miserables.json |
-| [img-nodes](./html/img-nodes.html) | Image nodes | Generated |
-| [curved-links](./html/curved-links.html) | Curved edges | Generated |
-| [directional-links](./html/directional-links.html) | Directional arrows | Generated |
-| [bloom-effect](./html/bloom-effect.html) | Post-processing bloom | Generated |
-| [camera-orbit](./html/camera-orbit.html) | Auto-orbiting camera | Generated |
-| [controls-fly](./html/controls-fly.html) | Fly controls | Generated |
-| [controls-orbit](./html/controls-orbit.html) | Orbit controls | Generated |
+| Page | Description | URL |
+|------|-------------|-----|
+| Basic | Simple 3D graph with auto-color | [html/basic.html](./html/basic.html) |
+| Tree | Tree structure with text labels | [html/tree.html](./html/tree.html) |
+| Highlight | Interactive hover highlighting | [html/highlight.html](./html/highlight.html) |
+| Curved Links | Curved edge rendering | [html/curved-links.html](./html/curved-links.html) |
+| Directional Links | Animated arrows + particles | [html/directional-links.html](./html/directional-links.html) |
+| Bloom Effect | Post-processing bloom | [html/bloom-effect.html](./html/bloom-effect.html) |
+| Camera Orbit | Auto-rotating camera | [html/camera-orbit.html](./html/camera-orbit.html) |
+| Controls Orbit | Orbit camera controls | [html/controls-orbit.html](./html/controls-orbit.html) |
+| Controls Fly | Fly-through navigation | [html/controls-fly.html](./html/controls-fly.html) |
+| Responsive | Auto-resize on window | [html/responsive.html](./html/responsive.html) |
+
+## Live URLs
+
+Access at: `https://genesis-zero-bot.github.io/regen-viz/html/{filename}.html`
 
 ## Quick Start
 
@@ -32,8 +35,8 @@ GitHub Pages repository for interactive 3D network visualizations using [3d-forc
 ```json
 {
   "nodes": [
-    { "id": "node1", "group": 1, "label": "Node 1" },
-    { "id": "node2", "group": 2, "label": "Node 2" }
+    { "id": "node1", "group": 1, "val": 10 },
+    { "id": "node2", "group": 2, "val": 15 }
   ],
   "links": [
     { "source": "node1", "target": "node2" }
@@ -47,13 +50,13 @@ Use the `regen-viz` skill to generate visualizations:
 
 ```
 # Generate graph from data
-regen-viz generate --data '{"nodes":[...], "links":[...]}'
+regen-viz generate-json --nodes a,b,c --links a-b,b-c
 
 # Create HTML with specific variant
-regen-viz create --variant highlight --name my-graph
+regen-viz create --data mydata.json --variant highlight --name mygraph
 
 # Push to repository
-regen-viz publish --name my-graph
+regen-viz publish --name mygraph
 ```
 
 ## Repository Structure
@@ -63,9 +66,11 @@ regen-viz/
 ├── README.md
 ├── _config.yml
 ├── data/                 # JSON data files
-│   └── *.json
+│   └── regen-tribe.json
 └── html/                # Generated HTML files
-    └── *.html
+    ├── basic.html
+    ├── highlight.html
+    └── ...
 ```
 
 ## Based On
@@ -75,4 +80,4 @@ regen-viz/
 
 ## Updates
 
-- 2026-03-05: Initial setup with 11 visualization variants
+- 2026-03-05: Initial setup with 10 visualization variants
