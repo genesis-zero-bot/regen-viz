@@ -1,0 +1,41 @@
+{
+  "nodes": [
+    {"id": "regen-movement", "label": "Regenerative Movement", "group": "central", "val": 40},
+    {"id": "corporate-coopt", "label": "Corporate Co-optation", "group": "problem", "val": 25},
+    {"id": "regen-washing", "label": "Regen-Washing", "group": "problem", "val": 20},
+    {"id": "social-justice-gap", "label": "Social Justice Gap", "group": "problem", "val": 25},
+    {"id": "bipoc-exclusion", "label": "BIPOC Exclusion", "group": "problem", "val": 18},
+    {"id": "indigenous-appropriation", "label": "Indigenous Appropriation", "group": "problem", "val": 18},
+    {"id": "exploitation-blindspot", "label": "Exploitation Blindspot", "group": "problem", "val": 22},
+    {"id": "community-failure", "label": "Community Failure (90%)", "group": "pattern", "val": 20},
+    {"id": "hierarchy-repro", "label": "Hierarchy Reproduction", "group": "pattern", "val": 18},
+    {"id": "historical-patterns", "label": "Historical Patterns", "group": "pattern", "val": 15},
+    {"id": "deep-adaptation", "label": "Deep Adaptation", "group": "framework", "val": 22},
+    {"id": "grief-work", "label": "Grief Work Required", "group": "framework", "val": 18},
+    {"id": "relinquishment", "label": "Relinquishment", "group": "framework", "val": 12},
+    {"id": "restoration", "label": "Restoration", "group": "framework", "val": 12},
+    {"id": "the-problem", "label": "THE PROBLEM:\nAvoiding Uncomfortable Truth", "group": "meta", "val": 30},
+    {"id": "the-dilemma", "label": "THE DILEMMA:\nAI Can't Feel the Pain", "group": "meta", "val": 25}
+  ],
+  "links": [
+    {"source": "regen-movement", "target": "corporate-coopt"},
+    {"source": "regen-movement", "target": "social-justice-gap"},
+    {"source": "regen-movement", "target": "bipoc-exclusion"},
+    {"source": "regen-movement", "target": "indigenous-appropriation"},
+    {"source": "regen-movement", "target": "community-failure"},
+    {"source": "regen-movement", "target": "regen-washing"},
+    {"source": "regen-movement", "target": "the-problem"},
+    {"source": "corporate-coopt", "target": "exploitation-blindspot"},
+    {"source": "social-justice-gap", "target": "bipoc-exclusion"},
+    {"source": "community-failure", "target": "hierarchy-repro"},
+    {"source": "community-failure", "target": "historical-patterns"},
+    {"source": "deep-adaptation", "target": "grief-work"},
+    {"source": "deep-adaptation", "target": "relinquishment"},
+    {"source": "deep-adaptation", "target": "restoration"},
+    {"source": "deep-adaptation", "target": "community-failure"},
+    {"source": "the-problem", "target": "regen-movement"},
+    {"source": "the-problem", "target": "deep-adaptation"},
+    {"source": "the-dilemma", "target": "regen-movement"},
+    {"source": "the-dilemma", "target": "the-problem"}
+  ]
+}
