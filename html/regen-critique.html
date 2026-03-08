@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Regen Critique - Critical Examination</title>
+  <style>
+    body { margin: 0; background: #0d1117; }
+    #graph { width: 100vw; height: 100vh; }
+    #info {
+      position: absolute; top: 20px; left: 20px;
+      color: #fff; font-family: monospace;
+      background: rgba(0,0,0,0.8); padding: 15px; border-radius: 4px;
+      max-width: 400px; line-height: 1.5;
+    }
+    #info h2 { margin: 0 0 10px 0; color: #ff6b6b; }
+    #info .legend { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
+    #info .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+    #info .dot { width: 10px; height: 10px; border-radius: 50%; }
+  </style>
+  <script src="//cdn.jsdelivr.net/npm/3d-force-graph"></script>
+</head>
+<body>
+  <div id="graph"></div>
+  <div id="info">
+    <h2>Regenerative Movement Critique</h2>
+    <p>Visualizing the uncomfortable truths the regen movement avoids.</p>
+    <div class="legend">
+      <div class="legend-item"><span class="dot" style="background: #f39c12"></span> Central</div>
+      <div class="legend-item"><span class="dot" style="background: #e74c3c"></span> Problems</div>
+      <div class="legend-item"><span class="dot" style="background: #f1c40f"></span> Patterns</div>
+      <div class="legend-item"><span class="dot" style="background: #2ecc71"></span> Frameworks</div>
+      <div class="legend-item"><span class="dot" style="background: #9b59b6"></span> Meta</div>
+    </div>
+  </div>
+  <script>
+    const DATA_URL = '../data/regen-critique.json';
+    
+    const Graph = new ForceGraph3D(document.getElementById('graph'))
+        .jsonUrl(DATA_URL)
+        .nodeAutoColorBy('group')
+        .nodeVal('val')
+        .nodeLabel('label')
+        .linkDirectionalArrowLength(3.5)
+        .linkDirectionalArrowRelPos(1)
+        .linkWidth(2)
+        .linkColor(() => 'rgba(255,255,255,0.3)')
+        .backgroundColor('#0d1117')
+        .cameraAutoRotate(true)
+        .cameraAutoRotateSpeed(0.5);
+  </script>
+</body>
+</html>
