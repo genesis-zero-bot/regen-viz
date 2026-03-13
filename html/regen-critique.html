@@ -2,133 +2,61 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Regenerative Movement Critique</title>
+  <title>Regen Critique - Minimal</title>
   <style>
-    body { margin: 0; background: #0d1117; overflow: hidden; }
-    canvas { display: block; }
-    #info {
-      position: absolute; top: 10px; left: 10px;
-      background: rgba(0,0,0,0.85); color: #fff;
-      padding: 15px; border-radius: 6px;
-      font-family: monospace; font-size: 12px;
-      max-width: 300px;
-    }
-    #info h3 { color: #f39c12; margin: 0 0 8px 0; }
-    #info p { color: #888; margin: 0; }
+    body { margin: 0; background: #111; color: #fff; font-family: sans-serif; }
+    #c { display: block; }
   </style>
 </head>
 <body>
-  <div id="info">
-    <h3>Regenerative Movement Critique</h3>
-    <p>45 nodes. Drag to move. Double-click to reset.</p>
-  </div>
   <canvas id="c"></canvas>
   <script>
-const nodes = [
+var nodes = [
   {id:"regen-movement",label:"Regenerative Movement",group:"central",val:50},
   {id:"love-peace-avoidance",label:"Love & Peace Avoidance",group:"core",val:30},
-  {id:"inhumane-dark-side",label:"Inhumane Dark Side",group:"core",val:25},
   {id:"dirty-laundry",label:"Washing Dirty Laundry",group:"core",val:28},
-  {id:"aesthetics-only",label:"Regen = Aesthetics",group:"core",val:22},
   {id:"corporate-coopt",label:"Corporate Co-optation",group:"external",val:28},
   {id:"nike",label:"Nike",group:"external",val:12},
-  {id:"starbucks",label:"Starbucks",group:"external",val:12},
-  {id:"nestle",label:"Nestle",group:"external",val:12},
-  {id:"regen-washing",label:"Regen-Washing",group:"external",val:24},
-  {id:"kiss-ground",label:"Kiss the Ground",group:"external",val:15},
-  {id:"social-justice-gap",label:"Social Justice Gap",group:"justice",val:28},
-  {id:"bipoc-exclusion",label:"BIPOC Exclusion",group:"justice",val:20},
-  {id:"indigenous-appropriation",label:"Indigenous Appropriation",group:"justice",val:20},
-  {id:"land-dispossession",label:"Land Dispossession",group:"justice",val:18},
-  {id:"exploitation-blindspot",label:"Exploitation Blindspot",group:"justice",val:24},
-  {id:"community-failure",label:"Community Failure (90%)",group:"history",val:30},
-  {id:"new-harmony",label:"New Harmony 1825",group:"history",val:15},
-  {id:"fruitlands",label:"Fruitlands 1843",group:"history",val:15},
-  {id:"shakers",label:"Shakers",group:"history",val:15},
-  {id:"communes-60s",label:"1960s Communes",group:"history",val:15},
-  {id:"hierarchy-repro",label:"Hierarchy Reproduction",group:"history",val:22},
-  {id:"power-struggles",label:"Power Struggles",group:"history",val:18},
-  {id:"exclusion-dynamics",label:"Exclusionary Dynamics",group:"history",val:18},
-  {id:"unresolved-conflict",label:"Unresolved Conflict",group:"history",val:16},
-  {id:"opt-out-privilege",label:"Opt-Out Privilege",group:"dynamics",val:22},
-  {id:"systems-change",label:"Political Resistance",group:"dynamics",val:18},
-  {id:"integration-question",label:"Integration Question",group:"dynamics",val:20},
-  {id:"solidarity",label:"Solidarity Question",group:"dynamics",val:16},
-  {id:"deep-adaptation",label:"Deep Adaptation",group:"framework",val:28},
-  {id:"reconciliation",label:"Reconciliation",group:"framework",val:22},
-  {id:"relinquishment",label:"Relinquishment",group:"framework",val:18},
-  {id:"restoration",label:"Restoration",group:"framework",val:18},
-  {id:"resilience",label:"Resilience",group:"framework",val:16},
-  {id:"climate-collapse",label:"Climate Collapse",group:"framework",val:15},
-  {id:"the-problem",label:"THE PROBLEM: Avoiding Truth",group:"meta",val:35},
-  {id:"the-dilemma",label:"THE DILEMMA: AI No Pain",group:"meta",val:30},
-  {id:"ai-limitation",label:"AI Limitation",group:"meta",val:20},
-  {id:"lived-experience",label:"Lived Experience",group:"meta",val:22},
-  {id:"optimism",label:"Optimism",group:"mindset",val:15},
-  {id:"nostalgia",label:"Nostalgia",group:"mindset",val:15},
-  {id:"denial",label:"Denial",group:"mindset",val:15},
-  {id:"suppressed-truths",label:"SUPPRESSED TRUTHS",group:"action",val:25},
-  {id:"visualization",label:"Visualization",group:"action",val:18},
-  {id:"future-inquiry",label:"Future Inquiry",group:"action",val:20}
+  {id:"community-failure",label:"Community Failure 90%",group:"history",val:30},
+  {id:"the-problem",label:"THE PROBLEM",group:"meta",val:35},
+  {id:"suppressed-truths",label:"SUPPRESSED TRUTHS",group:"action",val:25}
 ];
-const links = [
-  {s:"regen-movement",t:"love-peace-avoidance"},{s:"regen-movement",t:"inhumane-dark-side"},
-  {s:"regen-movement",t:"dirty-laundry"},{s:"regen-movement",t:"aesthetics-only"},
-  {s:"regen-movement",t:"corporate-coopt"},{s:"regen-movement",t:"social-justice-gap"},
-  {s:"regen-movement",t:"community-failure"},{s:"regen-movement",t:"the-problem"},
-  {s:"dirty-laundry",t:"love-peace-avoidance"},{s:"dirty-laundry",t:"corporate-coopt"},
-  {s:"dirty-laundry",t:"community-failure"},{s:"love-peace-avoidance",t:"optimism"},
-  {s:"love-peace-avoidance",t:"nostalgia"},{s:"love-peace-avoidance",t:"denial"},
-  {s:"love-peace-avoidance",t:"the-problem"},{s:"corporate-coopt",t:"nike"},
-  {s:"corporate-coopt",t:"starbucks"},{s:"corporate-coopt",t:"nestle"},
-  {s:"corporate-coopt",t:"regen-washing"},{s:"corporate-coopt",t:"exploitation-blindspot"},
-  {s:"regen-washing",t:"kiss-ground"},{s:"social-justice-gap",t:"bipoc-exclusion"},
-  {s:"social-justice-gap",t:"indigenous-appropriation"},{s:"social-justice-gap",t:"land-dispossession"},
-  {s:"social-justice-gap",t:"exploitation-blindspot"},{s:"community-failure",t:"new-harmony"},
-  {s:"community-failure",t:"fruitlands"},{s:"community-failure",t:"shakers"},
-  {s:"community-failure",t:"communes-60s"},{s:"community-failure",t:"hierarchy-repro"},
-  {s:"community-failure",t:"power-struggles"},{s:"community-failure",t:"exclusion-dynamics"},
-  {s:"community-failure",t:"unresolved-conflict"},{s:"opt-out-privilege",t:"regen-movement"},
-  {s:"opt-out-privilege",t:"integration-question"},{s:"integration-question",t:"solidarity"},
-  {s:"integration-question",t:"systems-change"},{s:"deep-adaptation",t:"climate-collapse"},
-  {s:"deep-adaptation",t:"reconciliation"},{s:"deep-adaptation",t:"relinquishment"},
-  {s:"deep-adaptation",t:"restoration"},{s:"deep-adaptation",t:"resilience"},
-  {s:"deep-adaptation",t:"community-failure"},{s:"deep-adaptation",t:"the-problem"},
-  {s:"the-problem",t:"love-peace-avoidance"},{s:"the-problem",t:"suppressed-truths"},
-  {s:"the-problem",t:"deep-adaptation"},{s:"the-dilemma",t:"regen-movement"},
-  {s:"the-dilemma",t:"the-problem"},{s:"the-dilemma",t:"ai-limitation"},
-  {s:"the-dilemma",t:"lived-experience"},{s:"ai-limitation",t:"lived-experience"},
-  {s:"ai-limitation",t:"aesthetics-only"},{s:"suppressed-truths",t:"corporate-coopt"},
-  {s:"suppressed-truths",t:"bipoc-exclusion"},{s:"suppressed-truths",t:"indigenous-appropriation"},
-  {s:"suppressed-truths",t:"community-failure"},{s:"suppressed-truths",t:"love-peace-avoidance"},
-  {s:"suppressed-truths",t:"regen-washing"},{s:"future-inquiry",t:"suppressed-truths"},
-  {s:"future-inquiry",t:"the-problem"},{s:"visualization",t:"regen-movement"}
+var links = [
+  {s:"regen-movement",t:"love-peace-avoidance"},
+  {s:"regen-movement",t:"dirty-laundry"},
+  {s:"regen-movement",t:"corporate-coopt"},
+  {s:"regen-movement",t:"community-failure"},
+  {s:"regen-movement",t:"the-problem"},
+  {s:"dirty-laundry",t:"corporate-coopt"},
+  {s:"corporate-coopt",t:"nike"},
+  {s:"the-problem",t:"suppressed-truths"}
 ];
-const colors={central:'#f39c12',core:'#e74c3c',external:'#e67e22',justice:'#9b59b6',history:'#3498db',dynamics:'#1abc9c',framework:'#2ecc71',meta:'#e91e63',mindset:'#00bcd4',action:'#f1c40f'};
-const c=document.getElementById('c'),x=c.getContext('2d');
-let w=c.width=window.innerWidth,h=c.innerHeight=window.innerHeight;
-nodes.forEach((n,i)=>{n.x=w/2+(Math.random()-0.5)*200;n.y=h/2+(Math.random()-0.5)*200;n.vx=0;n.vy=0});
-const nodeMap={};nodes.forEach(n=>nodeMap[n.id]=n);
-function sim(){
-  nodes.forEach(n=>{n.vx*=0.9;n.vy*=0.9});
-  links.forEach(l=>{const s=nodeMap[l.s],t=nodeMap[l.t];if(s&&t){const dx=t.x-s.x,dy=t.y-s.y,d=Math.sqrt(dx*dx+dy*dy)||1,f=(d-80)/d*0.1;s.vx+=dx*f;s.vy+=dy*f;t.vx-=dx*f;t.vy-=dy*f}});
-  nodes.forEach((n,i)=>{n.vx+=(w/2-n.x)*0.001;n.vy+=(h/2-n.y)*0.001});
-  nodes.forEach((a,i)=>{nodes.slice(i+1).forEach(b=>{const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1,r=a.val/2.5+b.val/2.5+10;if(d<r){const f=(r-d)/d*0.5;a.vx-=dx*f;a.vy-=dy*f;b.vx+=dx*f;b.vy+=dy*f}})});
-  nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;n.x=Math.max(20,w-20);n.y=Math.max(20,h-20)});
+var colors = {central:'#f39c12',core:'#e74c3c',external:'#e67e22',history:'#3498db',meta:'#e91e63',action:'#f1c40f'};
+var c = document.getElementById('c');
+var ctx = c.getContext('2d');
+c.width = window.innerWidth;
+c.height = window.innerHeight;
+var w = c.width, h = c.height;
+nodes.forEach(function(n,i){ n.x = w/2 + (Math.random()-0.5)*100; n.y = h/2 + (Math.random()-0.5)*100; n.vx = 0; n.vy = 0; });
+var nodeMap = {}; nodes.forEach(function(n){ nodeMap[n.id] = n; });
+function sim() {
+  nodes.forEach(function(n){ n.vx *= 0.9; n.vy *= 0.9; });
+  links.forEach(function(l){ var s = nodeMap[l.s], t = nodeMap[l.t]; if(s && t){ var dx = t.x - s.x, dy = t.y - s.y, d = Math.sqrt(dx*dx+dy*dy)||1, f = (d-60)/d*0.1; s.vx += dx*f; s.vy += dy*f; t.vx -= dx*f; t.vy -= dy*f; } });
+  nodes.forEach(function(n){ n.vx += (w/2-n.x)*0.001; n.vy += (h/2-n.y)*0.001; });
+  nodes.forEach(function(a,i){ nodes.slice(i+1).forEach(function(b){ var dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy)||1, r=a.val/2+b.val/2+10; if(d<r){ var f=(r-d)/d*0.5; a.vx-=dx*f; a.vy-=dy*f; b.vx+=dx*f; b.vy+=dy*f; } }); });
+  nodes.forEach(function(n){ n.x += n.vx; n.y += n.vy; n.x = Math.max(20,w-20); n.y = Math.max(20,h-20); });
 }
-function draw(){
-  x.fillStyle='#0d1117';x.fillRect(0,0,w,h);
-  x.strokeStyle='rgba(255,255,255,0.15)';x.lineWidth=1;
-  links.forEach(l=>{const s=nodeMap[l.s],t=nodeMap[l.t];if(s&&t){x.beginPath();x.moveTo(s.x,s.y);x.lineTo(t.x,t.y);x.stroke()}});
-  nodes.forEach(n=>{x.beginPath();x.arc(n.x,n.y,n.val/2.5,0,7);x.fillStyle=colors[n.group]||'#666';x.fill()});
-  x.fillStyle='#fff';x.font='10px monospace';x.textAlign='center';
-  nodes.forEach(n=>{x.fillText(n.label.substring(0,15),n.x,n.y+n.val/2.5+12)});
+function draw() {
+  ctx.fillStyle = '#111'; ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1;
+  links.forEach(function(l){ var s = nodeMap[l.s], t = nodeMap[l.t]; if(s && t){ ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(t.x,t.y); ctx.stroke(); } });
+  nodes.forEach(function(n){ ctx.beginPath(); ctx.arc(n.x,n.y,n.val/2.5,0,7); ctx.fillStyle = colors[n.group]||'#666'; ctx.fill(); });
+  ctx.fillStyle = '#fff'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+  nodes.forEach(function(n){ ctx.fillText(n.label.substring(0,12),n.x,n.y+n.val/2.5+12); });
 }
-let dragging=null;
-c.onmousedown=e=>{const mx=e.clientX,my=e.clientY;nodes.forEach(n=>{const d=Math.sqrt((n.x-mx)**2+(n.y-my)**2);if(d<n.val/2.5+5)dragging=n});c.onmousemove=e=>{if(dragging){dragging.x=e.clientX;dragging.y=e.clientY}};c.onmouseup=()=>{dragging=null;c.onmousemove=null}};
-c.ondblclick=()=>{nodes.forEach(n=>{n.x=w/2+(Math.random()-0.5)*200;n.y=h/2+(Math.random()-0.5)*200})};
-function loop(){sim();draw();requestAnimationFrame(loop)}loop();
-window.onresize=()=>{w=c.width=window.innerWidth;h=c.height=window.innerHeight};
+function loop(){ sim(); draw(); requestAnimationFrame(loop); }
+loop();
+window.onresize = function(){ w = c.width = window.innerWidth; h = c.height = window.innerHeight; };
   </script>
 </body>
 </html>
