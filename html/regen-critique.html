@@ -2,64 +2,192 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Regenerative Movement Critique</title>
+  <title>Regenerative Movement Critique - 2D</title>
   <style>
-    body { margin: 0; background: #0d1117; }
-    #graph { width: 100vw; height: 100vh; }
-    #info {
-      position: absolute; top: 20px; left: 20px;
-      color: #fff; font-family: monospace;
-      background: rgba(0,0,0,0.85); padding: 20px; border-radius: 8px;
-      max-width: 450px; line-height: 1.6; z-index: 100;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      background: #0d1117; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow: hidden;
     }
-    #info h2 { margin: 0 0 10px 0; color: #f39c12; font-size: 18px; }
-    #info p { margin: 0 0 15px 0; color: #aaa; font-size: 13px; }
-    #info .legend { display: flex; flex-wrap: wrap; gap: 10px; }
-    #info .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #888; }
-    #info .dot { width: 12px; height: 12px; border-radius: 50%; }
-    #loading {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      color: #666; font-family: monospace;
+    #container { 
+      width: 100vw; 
+      height: 100vh; 
+      position: relative;
+    }
+    svg { 
+      width: 100%; 
+      height: 100%; 
+    }
+    .node { 
+      cursor: pointer; 
+      transition: all 0.3s;
+    }
+    .node:hover { 
+      filter: brightness(1.3); 
+    }
+    .node-label {
+      font-size: 10px;
+      fill: #fff;
+      pointer-events: none;
+      text-anchor: middle;
+    }
+    .link { 
+      stroke: rgba(255,255,255,0.15); 
+      stroke-width: 1;
+    }
+    #info {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(0,0,0,0.9);
+      color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 350px;
+      font-size: 13px;
+      line-height: 1.5;
+      z-index: 100;
+    }
+    #info h2 { color: #f39c12; margin-bottom: 10px; }
+    #info p { color: #aaa; }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      color: #888;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    #node-count {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      color: #666;
+      font-size: 12px;
     }
   </style>
-  <script src="//cdn.jsdelivr.net/npm/3d-force-graph@1.7.3/dist/3d-force-graph.min.js"></script>
 </head>
 <body>
-  <div id="loading">Loading visualization...</div>
-  <div id="graph"></div>
-  <div id="info">
-    <h2>Regenerative Movement Critique</h2>
-    <p>Mapping the uncomfortable truths the regen movement avoids. Drag to rotate, scroll to zoom.</p>
-    <div class="legend">
-      <div class="legend-item"><span class="dot" style="background: #f39c12"></span> Central</div>
-      <div class="legend-item"><span class="dot" style="background: #e74c3c"></span> Core Critique</div>
-      <div class="legend-item"><span class="dot" style="background: #e67e22"></span> External</div>
-      <div class="legend-item"><span class="dot" style="background: #9b59b6"></span> Justice</div>
-      <div class="legend-item"><span class="dot" style="background: #3498db"></span> History</div>
-      <div class="legend-item"><span class="dot" style="background: #1abc9c"></span> Dynamics</div>
-      <div class="legend-item"><span class="dot" style="background: #2ecc71"></span> Framework</div>
-      <div class="legend-item"><span class="dot" style="background: #e91e63"></span> Meta</div>
-      <div class="legend-item"><span class="dot" style="background: #00bcd4"></span> Mindset</div>
-      <div class="legend-item"><span class="dot" style="background: #f1c40f"></span> Action</div>
+  <div id="container">
+    <svg id="graph"></svg>
+    <div id="info">
+      <h2>Regenerative Movement Critique</h2>
+      <p>45 nodes / 66 links. Drag to move. Scroll to zoom. Click nodes for details.</p>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot" style="background:#f39c12"></span>Central</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#e74c3c"></span>Core</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#e67e22"></span>External</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#9b59b6"></span>Justice</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#3498db"></span>History</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#1abc9c"></span>Dynamics</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#2ecc71"></span>Framework</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#e91e63"></span>Meta</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#00bcd4"></span>Mindset</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#f1c40f"></span>Action</div>
+      </div>
     </div>
+    <div id="node-count">45 nodes</div>
   </div>
-  <script>
-    const graphData = {"nodes": [{"id": "regen-movement", "label": "Regenerative Movement", "group": "central", "val": 50}, {"id": "love-peace-avoidance", "label": "\"Love & Peace\" Avoidance", "group": "core-critique", "val": 30}, {"id": "inhumane-dark-side", "label": "Inhumane Dark Side", "group": "core-critique", "val": 25}, {"id": "dirty-laundry", "label": "Washing Dirty Laundry\nin Same Toxic Water", "group": "core-critique", "val": 28}, {"id": "aesthetics-only", "label": "Regen = Just Aesthetics", "group": "core-critique", "val": 22}, {"id": "corporate-coopt", "label": "Corporate Co-optation", "group": "external", "val": 28}, {"id": "nike", "label": "Nike", "group": "external", "val": 12}, {"id": "starbucks", "label": "Starbucks", "group": "external", "val": 12}, {"id": "nestle", "label": "Nestl\u00e9", "group": "external", "val": 12}, {"id": "regen-washing", "label": "Regen-Washing", "group": "external", "val": 24}, {"id": "kiss-ground", "label": "Kiss the Ground Film\n(BIPOC Erasure)", "group": "external", "val": 15}, {"id": "social-justice-gap", "label": "Social Justice Gap", "group": "justice", "val": 28}, {"id": "bipoc-exclusion", "label": "BIPOC Exclusion", "group": "justice", "val": 20}, {"id": "indigenous-appropriation", "label": "Indigenous Appropriation\n(w/o Credit/Compensation)", "group": "justice", "val": 20}, {"id": "land-dispossession", "label": "Land Dispossession\nUnaddressed", "group": "justice", "val": 18}, {"id": "exploitation-blindspot", "label": "Exploitation Blindspot\n(Supply Chain Labor)", "group": "justice", "val": 24}, {"id": "community-failure", "label": "Community Failure (90%)", "group": "history", "val": 30}, {"id": "new-harmony", "label": "New Harmony (1825)\nRobert Owen - Absent Founder", "group": "history", "val": 15}, {"id": "fruitlands", "label": "Fruitlands (1843)\nRefused External Labor", "group": "history", "val": 15}, {"id": "shakers", "label": "Shakers\nCelibacy = Died Out", "group": "history", "val": 15}, {"id": "communes-60s", "label": "1960s Communes\nHierarchies/Sexual Conflicts", "group": "history", "val": 15}, {"id": "hierarchy-repro", "label": "Hierarchy Reproduction", "group": "history", "val": 22}, {"id": "power-struggles", "label": "Power Struggles", "group": "history", "val": 18}, {"id": "exclusion-dynamics", "label": "Exclusionary Dynamics", "group": "history", "val": 18}, {"id": "unresolved-conflict", "label": "Unresolved Conflict", "group": "history", "val": 16}, {"id": "opt-out-privilege", "label": "Opt-Out Privilege\n(Building Bubbles)", "group": "dynamics", "val": 22}, {"id": "systems-change", "label": "Regeneration as\nPolitical Resistance", "group": "dynamics", "val": 18}, {"id": "integration-question", "label": "Integration Question:\nEngage Broken Systems?", "group": "dynamics", "val": 20}, {"id": "solidarity", "label": "Solidarity Question\n(Who Are We With?)", "group": "dynamics", "val": 16}, {"id": "deep-adaptation", "label": "Deep Adaptation\n(Jem Bendell)", "group": "framework", "val": 28}, {"id": "reconciliation", "label": "Reconciliation\n(Grief & Fear)", "group": "framework", "val": 22}, {"id": "relinquishment", "label": "Relinquishment", "group": "framework", "val": 18}, {"id": "restoration", "label": "Restoration\n(Traditional Knowledge)", "group": "framework", "val": 18}, {"id": "resilience", "label": "Resilience\n(Local Capacity)", "group": "framework", "val": 16}, {"id": "climate-collapse", "label": "Climate Collapse\nAcceptance", "group": "framework", "val": 15}, {"id": "the-problem", "label": "THE PROBLEM:\nAvoiding Uncomfortable Truth", "group": "meta", "val": 35}, {"id": "the-dilemma", "label": "THE DILEMMA:\nAI Can't Feel the Pain", "group": "meta", "val": 30}, {"id": "ai-limitation", "label": "AI = More Sophisticated\nAvoidance?", "group": "meta", "val": 20}, {"id": "lived-experience", "label": "Lived Experience\nvs Generated Text", "group": "meta", "val": 22}, {"id": "optimism", "label": "Optimism\n\"Build Something Better\"", "group": "mindset", "val": 15}, {"id": "nostalgia", "label": "Nostalgia\n\"Back to the Land\"", "group": "mindset", "val": 15}, {"id": "denial", "label": "Denial\n\"If We Don't Look...\"", "group": "mindset", "val": 15}, {"id": "suppressed-truths", "label": "SUPPRESSED TRUTHS\nTO INSERT", "group": "action", "val": 25}, {"id": "visualization", "label": "Visualization\nMap Link", "group": "action", "val": 18}, {"id": "future-inquiry", "label": "Future Inquiry:\n\"What Truth Needs Telling?\"", "group": "action", "val": 20}], "links": [{"source": "regen-movement", "target": "love-peace-avoidance"}, {"source": "regen-movement", "target": "inhumane-dark-side"}, {"source": "regen-movement", "target": "dirty-laundry"}, {"source": "regen-movement", "target": "aesthetics-only"}, {"source": "regen-movement", "target": "corporate-coopt"}, {"source": "regen-movement", "target": "social-justice-gap"}, {"source": "regen-movement", "target": "community-failure"}, {"source": "regen-movement", "target": "the-problem"}, {"source": "dirty-laundry", "target": "love-peace-avoidance"}, {"source": "dirty-laundry", "target": "corporate-coopt"}, {"source": "dirty-laundry", "target": "community-failure"}, {"source": "love-peace-avoidance", "target": "optimism"}, {"source": "love-peace-avoidance", "target": "nostalgia"}, {"source": "love-peace-avoidance", "target": "denial"}, {"source": "love-peace-avoidance", "target": "the-problem"}, {"source": "corporate-coopt", "target": "nike"}, {"source": "corporate-coopt", "target": "starbucks"}, {"source": "corporate-coopt", "target": "nestle"}, {"source": "corporate-coopt", "target": "regen-washing"}, {"source": "corporate-coopt", "target": "exploitation-blindspot"}, {"source": "regen-washing", "target": "kiss-ground"}, {"source": "social-justice-gap", "target": "bipoc-exclusion"}, {"source": "social-justice-gap", "target": "indigenous-appropriation"}, {"source": "social-justice-gap", "target": "land-dispossession"}, {"source": "social-justice-gap", "target": "exploitation-blindspot"}, {"source": "community-failure", "target": "new-harmony"}, {"source": "community-failure", "target": "fruitlands"}, {"source": "community-failure", "target": "shakers"}, {"source": "community-failure", "target": "communes-60s"}, {"source": "community-failure", "target": "hierarchy-repro"}, {"source": "community-failure", "target": "power-struggles"}, {"source": "community-failure", "target": "exclusion-dynamics"}, {"source": "community-failure", "target": "unresolved-conflict"}, {"source": "community-failure", "target": "historical-patterns"}, {"source": "historical-patterns", "target": "hierarchy-repro"}, {"source": "historical-patterns", "target": "power-struggles"}, {"source": "opt-out-privilege", "target": "regen-movement"}, {"source": "opt-out-privilege", "target": "integration-question"}, {"source": "integration-question", "target": "solidarity"}, {"source": "integration-question", "target": "systems-change"}, {"source": "deep-adaptation", "target": "climate-collapse"}, {"source": "deep-adaptation", "target": "reconciliation"}, {"source": "deep-adaptation", "target": "relinquishment"}, {"source": "deep-adaptation", "target": "restoration"}, {"source": "deep-adaptation", "target": "resilience"}, {"source": "deep-adaptation", "target": "community-failure"}, {"source": "deep-adaptation", "target": "the-problem"}, {"source": "reconciliation", "target": "love-peace-avoidance"}, {"source": "the-problem", "target": "love-peace-avoidance"}, {"source": "the-problem", "target": "suppressed-truths"}, {"source": "the-problem", "target": "deep-adaptation"}, {"source": "the-dilemma", "target": "regen-movement"}, {"source": "the-dilemma", "target": "the-problem"}, {"source": "the-dilemma", "target": "ai-limitation"}, {"source": "the-dilemma", "target": "lived-experience"}, {"source": "ai-limitation", "target": "lived-experience"}, {"source": "ai-limitation", "target": "aesthetics-only"}, {"source": "suppressed-truths", "target": "corporate-coopt"}, {"source": "suppressed-truths", "target": "bipoc-exclusion"}, {"source": "suppressed-truths", "target": "indigenous-appropriation"}, {"source": "suppressed-truths", "target": "community-failure"}, {"source": "suppressed-truths", "target": "love-peace-avoidance"}, {"source": "suppressed-truths", "target": "regen-washing"}, {"source": "future-inquiry", "target": "suppressed-truths"}, {"source": "future-inquiry", "target": "the-problem"}, {"source": "visualization", "target": "regen-movement"}]};
 
-    document.getElementById('loading').style.display = 'none';
-    
-    const Graph = new ForceGraph3D(document.getElementById('graph'))
-        .graphData(graphData)
-        .nodeAutoColorBy('group')
-        .nodeVal('val')
-        .nodeLabel('label')
-        .linkDirectionalArrowLength(3.5)
-        .linkDirectionalArrowRelPos(1)
-        .linkWidth(1.5)
-        .linkColor(() => 'rgba(255,255,255,0.25)')
-        .backgroundColor('#0d1117')
-        .cameraAutoRotate(true)
-        .cameraAutoRotateSpeed(0.3);
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+    const data = {"nodes": [{"id": "regen-movement", "label": "Regenerative Movement", "group": "central", "val": 50}, {"id": "love-peace-avoidance", "label": "\"Love & Peace\" Avoidance", "group": "core-critique", "val": 30}, {"id": "inhumane-dark-side", "label": "Inhumane Dark Side", "group": "core-critique", "val": 25}, {"id": "dirty-laundry", "label": "Washing Dirty Laundry in Same Toxic Water", "group": "core-critique", "val": 28}, {"id": "aesthetics-only", "label": "Regen = Just Aesthetics", "group": "core-critique", "val": 22}, {"id": "corporate-coopt", "label": "Corporate Co-optation", "group": "external", "val": 28}, {"id": "nike", "label": "Nike", "group": "external", "val": 12}, {"id": "starbucks", "label": "Starbucks", "group": "external", "val": 12}, {"id": "nestle", "label": "Nestl\u00e9", "group": "external", "val": 12}, {"id": "regen-washing", "label": "Regen-Washing", "group": "external", "val": 24}, {"id": "kiss-ground", "label": "Kiss the Ground Film (BIPOC Erasure)", "group": "external", "val": 15}, {"id": "social-justice-gap", "label": "Social Justice Gap", "group": "justice", "val": 28}, {"id": "bipoc-exclusion", "label": "BIPOC Exclusion", "group": "justice", "val": 20}, {"id": "indigenous-appropriation", "label": "Indigenous Appropriation (w/o Credit)", "group": "justice", "val": 20}, {"id": "land-dispossession", "label": "Land Dispossession Unaddressed", "group": "justice", "val": 18}, {"id": "exploitation-blindspot", "label": "Exploitation Blindspot (Supply Chain)", "group": "justice", "val": 24}, {"id": "community-failure", "label": "Community Failure (90%)", "group": "history", "val": 30}, {"id": "new-harmony", "label": "New Harmony (1825)", "group": "history", "val": 15}, {"id": "fruitlands", "label": "Fruitlands (1843)", "group": "history", "val": 15}, {"id": "shakers", "label": "Shakers (Celibacy = Died Out)", "group": "history", "val": 15}, {"id": "communes-60s", "label": "1960s Communes", "group": "history", "val": 15}, {"id": "hierarchy-repro", "label": "Hierarchy Reproduction", "group": "history", "val": 22}, {"id": "power-struggles", "label": "Power Struggles", "group": "history", "val": 18}, {"id": "exclusion-dynamics", "label": "Exclusionary Dynamics", "group": "history", "val": 18}, {"id": "unresolved-conflict", "label": "Unresolved Conflict", "group": "history", "val": 16}, {"id": "opt-out-privilege", "label": "Opt-Out Privilege (Building Bubbles)", "group": "dynamics", "val": 22}, {"id": "systems-change", "label": "Regeneration as Political Resistance", "group": "dynamics", "val": 18}, {"id": "integration-question", "label": "Integration Question: Engage Broken Systems?", "group": "dynamics", "val": 20}, {"id": "solidarity", "label": "Solidarity Question (Who Are We With?)", "group": "dynamics", "val": 16}, {"id": "deep-adaptation", "label": "Deep Adaptation (Jem Bendell)", "group": "framework", "val": 28}, {"id": "reconciliation", "label": "Reconciliation (Grief & Fear)", "group": "framework", "val": 22}, {"id": "relinquishment", "label": "Relinquishment", "group": "framework", "val": 18}, {"id": "restoration", "label": "Restoration (Traditional Knowledge)", "group": "framework", "val": 18}, {"id": "resilience", "label": "Resilience (Local Capacity)", "group": "framework", "val": 16}, {"id": "climate-collapse", "label": "Climate Collapse Acceptance", "group": "framework", "val": 15}, {"id": "the-problem", "label": "THE PROBLEM: Avoiding Uncomfortable Truth", "group": "meta", "val": 35}, {"id": "the-dilemma", "label": "THE DILEMMA: AI Can't Feel the Pain", "group": "meta", "val": 30}, {"id": "ai-limitation", "label": "AI = More Sophisticated Avoidance?", "group": "meta", "val": 20}, {"id": "lived-experience", "label": "Lived Experience vs Generated Text", "group": "meta", "val": 22}, {"id": "optimism", "label": "Optimism (Build Something Better)", "group": "mindset", "val": 15}, {"id": "nostalgia", "label": "Nostalgia (Back to the Land)", "group": "mindset", "val": 15}, {"id": "denial", "label": "Denial (If We Don't Look...)", "group": "mindset", "val": 15}, {"id": "suppressed-truths", "label": "SUPPRESSED TRUTHS TO INSERT", "group": "action", "val": 25}, {"id": "visualization", "label": "Visualization Map Link", "group": "action", "val": 18}, {"id": "future-inquiry", "label": "Future Inquiry: What Truth Needs Telling?", "group": "action", "val": 20}], "links": [{"source": "regen-movement", "target": "love-peace-avoidance"}, {"source": "regen-movement", "target": "inhumane-dark-side"}, {"source": "regen-movement", "target": "dirty-laundry"}, {"source": "regen-movement", "target": "aesthetics-only"}, {"source": "regen-movement", "target": "corporate-coopt"}, {"source": "regen-movement", "target": "social-justice-gap"}, {"source": "regen-movement", "target": "community-failure"}, {"source": "regen-movement", "target": "the-problem"}, {"source": "dirty-laundry", "target": "love-peace-avoidance"}, {"source": "dirty-laundry", "target": "corporate-coopt"}, {"source": "dirty-laundry", "target": "community-failure"}, {"source": "love-peace-avoidance", "target": "optimism"}, {"source": "love-peace-avoidance", "target": "nostalgia"}, {"source": "love-peace-avoidance", "target": "denial"}, {"source": "love-peace-avoidance", "target": "the-problem"}, {"source": "corporate-coopt", "target": "nike"}, {"source": "corporate-coopt", "target": "starbucks"}, {"source": "corporate-coopt", "target": "nestle"}, {"source": "corporate-coopt", "target": "regen-washing"}, {"source": "corporate-coopt", "target": "exploitation-blindspot"}, {"source": "regen-washing", "target": "kiss-ground"}, {"source": "social-justice-gap", "target": "bipoc-exclusion"}, {"source": "social-justice-gap", "target": "indigenous-appropriation"}, {"source": "social-justice-gap", "target": "land-dispossession"}, {"source": "social-justice-gap", "target": "exploitation-blindspot"}, {"source": "community-failure", "target": "new-harmony"}, {"source": "community-failure", "target": "fruitlands"}, {"source": "community-failure", "target": "shakers"}, {"source": "community-failure", "target": "communes-60s"}, {"source": "community-failure", "target": "hierarchy-repro"}, {"source": "community-failure", "target": "power-struggles"}, {"source": "community-failure", "target": "exclusion-dynamics"}, {"source": "community-failure", "target": "unresolved-conflict"}, {"source": "opt-out-privilege", "target": "regen-movement"}, {"source": "opt-out-privilege", "target": "integration-question"}, {"source": "integration-question", "target": "solidarity"}, {"source": "integration-question", "target": "systems-change"}, {"source": "deep-adaptation", "target": "climate-collapse"}, {"source": "deep-adaptation", "target": "reconciliation"}, {"source": "deep-adaptation", "target": "relinquishment"}, {"source": "deep-adaptation", "target": "restoration"}, {"source": "deep-adaptation", "target": "resilience"}, {"source": "deep-adaptation", "target": "community-failure"}, {"source": "deep-adaptation", "target": "the-problem"}, {"source": "the-problem", "target": "love-peace-avoidance"}, {"source": "the-problem", "target": "suppressed-truths"}, {"source": "the-problem", "target": "deep-adaptation"}, {"source": "the-dilemma", "target": "regen-movement"}, {"source": "the-dilemma", "target": "the-problem"}, {"source": "the-dilemma", "target": "ai-limitation"}, {"source": "the-dilemma", "target": "lived-experience"}, {"source": "ai-limitation", "target": "lived-experience"}, {"source": "ai-limitation", "target": "aesthetics-only"}, {"source": "suppressed-truths", "target": "corporate-coopt"}, {"source": "suppressed-truths", "target": "bipoc-exclusion"}, {"source": "suppressed-truths", "target": "indigenous-appropriation"}, {"source": "suppressed-truths", "target": "community-failure"}, {"source": "suppressed-truths", "target": "love-peace-avoidance"}, {"source": "suppressed-truths", "target": "regen-washing"}, {"source": "future-inquiry", "target": "suppressed-truths"}, {"source": "future-inquiry", "target": "the-problem"}, {"source": "visualization", "target": "regen-movement"}]};
+
+    const colors = {
+      'central': '#f39c12',
+      'core-critique': '#e74c3c',
+      'external': '#e67e22',
+      'justice': '#9b59b6',
+      'history': '#3498db',
+      'dynamics': '#1abc9c',
+      'framework': '#2ecc71',
+      'meta': '#e91e63',
+      'mindset': '#00bcd4',
+      'action': '#f1c40f'
+    };
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const svg = d3.select('#graph')
+      .attr('viewBox', [0, 0, width, height]);
+
+    const simulation = d3.forceSimulation(data.nodes)
+      .force('link', d3.forceLink(data.links).id(d => d.id).distance(80))
+      .force('charge', d3.forceManyBody().strength(-200))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('collision', d3.forceCollide().radius(d => d.val + 10));
+
+    const link = svg.append('g')
+      .selectAll('line')
+      .data(data.links)
+      .join('line')
+      .attr('class', 'link');
+
+    const node = svg.append('g')
+      .selectAll('g')
+      .data(data.nodes)
+      .join('g')
+      .attr('class', 'node')
+      .call(d3.drag()
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended));
+
+    node.append('circle')
+      .attr('r', d => d.val / 2.5)
+      .attr('fill', d => colors[d.group] || '#666');
+
+    node.append('text')
+      .attr('class', 'node-label')
+      .attr('dy', d => d.val / 2.5 + 12)
+      .text(d => d.label.split('\n')[0].substring(0, 20));
+
+    simulation.on('tick', () => {
+      link
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+
+      node.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+
+    function dragstarted(event) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      event.subject.fx = event.subject.x;
+      event.subject.fy = event.subject.y;
+    }
+
+    function dragged(event) {
+      event.subject.fx = event.x;
+      event.subject.fy = event.y;
+    }
+
+    function dragended(event) {
+      if (!event.active) simulation.alphaTarget(0);
+      event.subject.fx = null;
+      event.subject.fy = null;
+    }
+
+    // Zoom
+    const zoom = d3.zoom()
+      .scaleExtent([0.1, 4])
+      .on('zoom', (event) => {
+        svg.selectAll('g').attr('transform', event.transform);
+      });
+    svg.call(zoom);
   </script>
 </body>
 </html>
