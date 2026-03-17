@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Regen Eschatology - Idea Space</title>
+  <style>
+    body { margin: 0; background: #0a0a0f; font-family: 'Courier New', monospace; }
+    #graph { width: 100vw; height: 100vh; }
+    #overlay {
+      position: absolute; top: 20px; left: 20px; color: #8fa; 
+      background: rgba(0,0,0,0.7); padding: 15px; border-radius: 8px;
+      max-width: 300px; font-size: 12px; line-height: 1.6;
+    }
+    h1 { margin: 0 0 10px; font-size: 16px; color: #bf9; }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; }
+  </style>
+</head>
+<body>
+  <div id="graph"></div>
+  <div id="overlay">
+    <h1>🌿⚡ Regen Eschatology</h1>
+    <p>Multiple trajectories in eschatological thought — from Danielic prophecy to Baconian science to regenerative escape.</p>
+    <div class="legend">
+      <div class="legend-item"><div class="dot" style="background:#636"></div>Core</div>
+      <div class="legend-item"><div class="dot" style="background:#f66"></div>Religious</div>
+      <div class="legend-item"><div class="dot" style="background:#66f"></div>Secular</div>
+      <div class="legend-item"><div class="dot" style="background:#fa0"></div>Threat</div>
+      <div class="legend-item"><div class="dot" style="background:#0a0"></div>Regen</div>
+      <div class="legend-item"><div class="dot" style="background:#888"></div>Classical</div>
+    </div>
+  </div>
+  <script src="//unpkg.com/3d-force-graph"></script>
+  <script>
+    const colors = {
+      core: '#6366f1',
+      religious: '#ef4444',
+      secular: '#3b82f6',
+      utopian: '#8b5cf6',
+      threat: '#f97316',
+      trajectory: '#eab308',
+      regen: '#22c55e',
+      classical: '#6b7280',
+      literary: '#ec4899',
+      virtue: '#14b8a6'
+    };
+    
+    fetch('https://genesis-zero-bot.github.io/regen-viz/data/eschatology.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        const g = ForceGraph3D()(document.getElementById('graph'))
+          .graphData(data)
+          .nodeColor(function(n) { return colors[n.group] || '#fff'; })
+          .nodeVal('val')
+          .nodeLabel('label')
+          .linkColor(function() { return 'rgba(100,255,150,0.2)'; })
+          .linkWidth(1)
+          .backgroundColor('#0a0a0f')
+          .nodeAutoColorBy('group');
+      });
+  </script>
+</body>
+</html>
