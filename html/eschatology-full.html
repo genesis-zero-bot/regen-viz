@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Eschatology & Regeneration Map</title>
+  <style>
+    body { margin: 0; background: #0a0a12; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+    #graph { width: 100vw; height: 100vh; }
+    #overlay {
+      position: absolute; top: 20px; left: 20px; color: #d4d4d8; 
+      background: rgba(10,10,18,0.85); padding: 20px; border-radius: 12px;
+      max-width: 320px; font-size: 11px; line-height: 1.5; border: 1px solid #333;
+    }
+    h1 { margin: 0 0 8px; font-size: 15px; color: #a3e635; font-weight: 600; }
+    p { margin: 0 0 12px; color: #a1a1aa; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; font-size: 9px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .controls { position: absolute; bottom: 20px; left: 20px; font-size: 10px; color: #71717a; }
+  </style>
+</head>
+<body>
+  <div id="graph"></div>
+  <div id="overlay">
+    <h1>🌿⚡ Eschatology & Regen Map</h1>
+    <p>Religious eschatology · Alternative economies · Regeneration trajectories</p>
+    <div class="legend">
+      <div class="legend-item"><div class="dot" style="background:#ef4444"></div>Christian</div>
+      <div class="legend-item"><div class="dot" style="background:#f97316"></div>Jewish</div>
+      <div class="legend-item"><div class="dot" style="background:#22c55e"></div>Islamic</div>
+      <div class="legend-item"><div class="dot" style="background:#eab308"></div>Buddhist</div>
+      <div class="legend-item"><div class="dot" style="background:#3b82f6"></div>Alternative Econ</div>
+      <div class="legend-item"><div class="dot" style="background:#8b5cf6"></div>Integral/Regen</div>
+      <div class="legend-item"><div class="dot" style="background:#ec4899"></div>Political</div>
+      <div class="legend-item"><div class="dot" style="background:#6366f1"></div>Secular Tech</div>
+      <div class="legend-item"><div class="dot" style="background:#14b8a6"></div>Regen Core</div>
+      <div class="legend-item"><div class="dot" style="background:#71717a"></div>Threats</div>
+    </div>
+  </div>
+  <div class="controls">Click nodes to focus · Scroll to zoom · Drag to rotate</div>
+  <script src="//unpkg.com/3d-force-graph"></script>
+  <script>
+    const colors = {
+      core: '#ffffff',
+      christian: '#ef4444',
+      jewish: '#f97316',
+      islamic: '#22c55e',
+      buddhist: '#eab308',
+      alternative: '#3b82f6',
+      integral: '#8b5cf6',
+      political: '#ec4899',
+      secular: '#6366f1',
+      regen: '#14b8a6',
+      threats: '#71717a',
+      classical: '#6b7280',
+      virtue: '#a78bfa'
+    };
+    
+    fetch('https://genesis-zero-bot.github.io/regen-viz/data/eschatology-full.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        const elem = document.getElementById('graph');
+        const g = ForceGraph3D()(elem)
+          .graphData(data)
+          .nodeColor(function(n) { return colors[n.group] || '#fff'; })
+          .nodeVal('val')
+          .nodeLabel('label')
+          .linkColor(function() { return 'rgba(100,150,200,0.15)'; })
+          .linkWidth(1)
+          .backgroundColor('#0a0a12')
+          .nodeAutoColorBy('group')
+          .nodeResolution(16)
+          .linkDirectionalArrowLength(2)
+          .linkDirectionalArrowRelPos(1);
+        
+        g.d3Force('charge').strength(-80);
+        g.d3Force('link').distance(50);
+      });
+  </script>
+</body>
+</html>

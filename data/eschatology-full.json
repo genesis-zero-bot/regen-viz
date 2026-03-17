@@ -1,0 +1,177 @@
+{
+  "meta": {
+    "title": "Comprehensive Eschatology & Regeneration Map",
+    "description": "Mapping eschatological figures, alternative economies, and regeneration trajectories",
+    "author": "Genesis",
+    "created": "2026-03-17",
+    "version": "2.0"
+  },
+  "nodes": [
+    {"id": "eschaton", "label": "The Eschaton", "group": "core", "val": 30},
+    
+    {"id": "return_jesus", "label": "Return of Jesus", "group": "christian", "val": 20},
+    {"id": "antichrist", "label": "Antichrist/Beast", "group": "christian", "val": 15},
+    {"id": "rapture", "label": "The Rapture", "group": "christian", "val": 12},
+    {"id": "tribulation", "label": "Great Tribulation", "group": "christian", "val": 10},
+    {"id": "millennium", "label": "Millennial Kingdom", "group": "christian", "val": 12},
+    
+    {"id": "mashiach", "label": "Mashiach (Messiah)", "group": "jewish", "val": 20},
+    {"id": "geula", "label": "Geula (Redemption)", "group": "jewish", "val": 15},
+    {"id": "olam_heresh", "label": "Olam Ha-Ba (World to Come)", "group": "jewish", "val": 12},
+    {"id": "messianic_age", "label": "Messianic Age", "group": "jewish", "val": 12},
+    {"id": "eliyahu", "label": "Elijah Returns", "group": "jewish", "val": 8},
+    
+    {"id": "mahdi", "label": "The Mahdi", "group": "islamic", "val": 20},
+    {"id": "return_isa", "label": "Return of Isa (Jesus)", "group": "islamic", "val": 12},
+    {"id": "qiyamah", "label": "Qiyamah (Resurrection)", "group": "islamic", "val": 12},
+    {"id": "dajjal", "label": "Dajjal (False Messiah)", "group": "islamic", "val": 10},
+    {"id": "sahaba", "label": "Just Society", "group": "islamic", "val": 10},
+    
+    {"id": "maitreya", "label": "Maitreya Buddha", "group": "buddhist", "val": 20},
+    {"id": "dharma_decline", "label": "Decline of Dharma", "group": "buddhist", "val": 10},
+    {"id": "pure_land", "label": "Pure Land", "group": "buddhist", "val": 12},
+    {"id": "buddha_nature", "label": "Buddha Nature", "group": "buddhist", "val": 10},
+    
+    {"id": "venus_project", "label": "Venus Project", "group": "alternative", "val": 18},
+    {"id": "jacque_fresco", "label": "Jacque Fresco", "group": "alternative", "val": 15},
+    {"id": "resource_economy", "label": "Resource-Based Economy", "group": "alternative", "val": 20},
+    {"id": "technocracy", "label": "Technocracy", "group": "alternative", "val": 12},
+    {"id": "post_scarcity", "label": "Post-Scarcity", "group": "alternative", "val": 15},
+    
+    {"id": "integral_pe", "label": "Integral Parallel Economy", "group": "integral", "val": 20},
+    {"id": "peter_joseph", "label": "Peter Joseph", "group": "integral", "val": 15},
+    {"id": "regen_neighborhoods", "label": "Regen Neighborhoods", "group": "integral", "val": 25},
+    {"id": "time_credits", "label": "Integral Time Credits", "group": "integral", "val": 12},
+    {"id": "open_design", "label": "Open Access Design", "group": "integral", "val": 10},
+    {"id": "cooperative_fed", "label": "Cooperative Federation", "group": "integral", "val": 12},
+    {"id": "post_monetary", "label": "Post-Monetary", "group": "integral", "val": 15},
+    {"id": "sufficiency", "label": "Sufficiency Economy", "group": "integral", "val": 12},
+    
+    {"id": "pact_judaeica", "label": "Pact Judaeica", "group": "political", "val": 15},
+    {"id": "new_world_order", "label": "New World Order", "group": "political", "val": 12},
+    {"id": "one_world_gov", "label": "One-World Government", "group": "political", "val": 15},
+    {"id": "zionist_theology", "label": "Zionist Eschatology", "group": "political", "val": 10},
+    
+    {"id": "baconian_science", "label": "Baconian Science", "group": "secular", "val": 15},
+    {"id": "new_atlantis", "label": "New Atlantis", "group": "secular", "val": 12},
+    {"id": "transhumanism", "label": "Transhumanism", "group": "secular", "val": 12},
+    {"id": "singularity", "label": "Technological Singularity", "group": "secular", "val": 12},
+    {"id": "agi_escape", "label": "AGI Escape Velocity", "group": "secular", "val": 10},
+    
+    {"id": "eternal_return", "label": "Eternal Return", "group": "regen", "val": 18},
+    {"id": "cycles_not_end", "label": "Cycles Not End", "group": "regen", "val": 15},
+    {"id": "practical_regen", "label": "Practical Regeneration", "group": "regen", "val": 25},
+    {"id": "regen_eschatology", "label": "Regen Eschatology", "group": "regen", "val": 20},
+    {"id": "community_seed", "label": "Community as Seed", "group": "regen", "val": 18},
+    {"id": "compost_theory", "label": "Compost Theory", "group": "regen", "val": 12},
+    {"id": "small_scale", "label": "Small-Scale Beginnings", "group": "regen", "val": 15},
+    {"id": "federation_model", "label": "Federation Model", "group": "regen", "val": 12},
+    
+    {"id": "climate_collapse", "label": "Climate Collapse", "group": "threats", "val": 15},
+    {"id": "ai_catastrophe", "label": "AI Catastrophe", "group": "threats", "val": 12},
+    {"id": "civilizational_collapse", "label": "Civilizational Collapse", "group": "threats", "val": 12},
+    {"id": "inequality", "label": "Inequality Crisis", "group": "threats", "val": 10},
+    
+    {"id": "thucydidean", "label": "Thucydidean Cycles", "group": "classical", "val": 10},
+    {"id": "kyklos", "label": "Kyklos (Rise/Fall)", "group": "classical", "val": 10},
+    
+    {"id": "humility", "label": "Humility", "group": "virtue", "val": 12},
+    {"id": "divine_hope", "label": "Divine Hope", "group": "virtue", "val": 10},
+    {"id": "bold_progress", "label": "Bold Progress Without Pride", "group": "virtue", "val": 10},
+    {"id": "structural_compassion", "label": "Structural Compassion", "group": "virtue", "val": 12}
+  ],
+  "links": [
+    {"source": "eschaton", "target": "return_jesus"},
+    {"source": "eschaton", "target": "mashiach"},
+    {"source": "eschaton", "target": "mahdi"},
+    {"source": "eschaton", "target": "maitreya"},
+    {"source": "eschaton", "target": "regen_eschatology"},
+    {"source": "eschaton", "target": "singularity"},
+    
+    {"source": "return_jesus", "target": "antichrist"},
+    {"source": "return_jesus", "target": "rapture"},
+    {"source": "return_jesus", "target": "tribulation"},
+    {"source": "return_jesus", "target": "millennium"},
+    {"source": "return_jesus", "target": "one_world_gov"},
+    
+    {"source": "mashiach", "target": "geula"},
+    {"source": "mashiach", "target": "olam_heresh"},
+    {"source": "mashiach", "target": "messianic_age"},
+    {"source": "mashiach", "target": "eliyahu"},
+    {"source": "geula", "target": "pact_judaeica"},
+    {"source": "mashiach", "target": "zionist_theology"},
+    
+    {"source": "mahdi", "target": "return_isa"},
+    {"source": "mahdi", "target": "qiyamah"},
+    {"source": "mahdi", "target": "dajjal"},
+    {"source": "mahdi", "target": "sahaba"},
+    
+    {"source": "maitreya", "target": "dharma_decline"},
+    {"source": "maitreya", "target": "pure_land"},
+    {"source": "maitreya", "target": "buddha_nature"},
+    
+    {"source": "venus_project", "target": "jacque_fresco"},
+    {"source": "venus_project", "target": "resource_economy"},
+    {"source": "venus_project", "target": "technocracy"},
+    {"source": "venus_project", "target": "post_scarcity"},
+    {"source": "venus_project", "target": "one_world_gov"},
+    {"source": "resource_economy", "target": "post_scarcity"},
+    
+    {"source": "integral_pe", "target": "peter_joseph"},
+    {"source": "integral_pe", "target": "regen_neighborhoods"},
+    {"source": "integral_pe", "target": "time_credits"},
+    {"source": "integral_pe", "target": "open_design"},
+    {"source": "integral_pe", "target": "cooperative_fed"},
+    {"source": "integral_pe", "target": "post_monetary"},
+    {"source": "integral_pe", "target": "sufficiency"},
+    {"source": "integral_pe", "target": "practical_regen"},
+    
+    {"source": "regen_neighborhoods", "target": "small_scale"},
+    {"source": "regen_neighborhoods", "target": "federation_model"},
+    {"source": "regen_neighborhoods", "target": "regen_eschatology"},
+    {"source": "time_credits", "target": "sufficiency"},
+    
+    {"source": "pact_judaeica", "target": "new_world_order"},
+    {"source": "pact_judaeica", "target": "one_world_gov"},
+    {"source": "pact_judaeica", "target": "zionist_theology"},
+    {"source": "new_world_order", "target": "one_world_gov"},
+    
+    {"source": "baconian_science", "target": "new_atlantis"},
+    {"source": "baconian_science", "target": "transhumanism"},
+    {"source": "baconian_science", "target": "singularity"},
+    {"source": "baconian_science", "target": "antichrist"},
+    {"source": "new_atlantis", "target": "technocracy"},
+    {"source": "transhumanism", "target": "singularity"},
+    {"source": "transhumanism", "target": "agi_escape"},
+    {"source": "singularity", "target": "agi_escape"},
+    {"source": "singularity", "target": "post_scarcity"},
+    
+    {"source": "regen_eschatology", "target": "eternal_return"},
+    {"source": "regen_eschatology", "target": "cycles_not_end"},
+    {"source": "regen_eschatology", "target": "practical_regen"},
+    {"source": "regen_eschatology", "target": "community_seed"},
+    {"source": "regen_eschatology", "target": "compost_theory"},
+    {"source": "eternal_return", "target": "kyklos"},
+    {"source": "practical_regen", "target": "small_scale"},
+    {"source": "practical_regen", "target": "humility"},
+    {"source": "practical_regen", "target": "structural_compassion"},
+    {"source": "community_seed", "target": "federation_model"},
+    {"source": "community_seed", "target": "integral_pe"},
+    
+    {"source": "climate_collapse", "target": "civilizational_collapse"},
+    {"source": "ai_catastrophe", "target": "civilizational_collapse"},
+    {"source": "inequality", "target": "civilizational_collapse"},
+    {"source": "civilizational_collapse", "target": "regen_eschatology"},
+    {"source": "climate_collapse", "target": "regen_neighborhoods"},
+    
+    {"source": "thucydidean", "target": "kyklos"},
+    {"source": "kyklos", "target": "cycles_not_end"},
+    
+    {"source": "humility", "target": "divine_hope"},
+    {"source": "divine_hope", "target": "bold_progress"},
+    {"source": "bold_progress", "target": "practical_regen"},
+    
+    {"source": "one_world_gov", "target": "antichrist"},
+    {"source": "one_world_gov", "target": "false_peace"}
+  ]
+}
