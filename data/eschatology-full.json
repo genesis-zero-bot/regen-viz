@@ -67,6 +67,8 @@
     {"id": "small_scale", "label": "Small-Scale Beginnings", "group": "regen", "val": 15},
     {"id": "federation_model", "label": "Federation Model", "group": "regen", "val": 12},
     
+    {"id": "false_peace", "label": "False Peace & Safety", "group": "threats", "val": 10},
+    
     {"id": "climate_collapse", "label": "Climate Collapse", "group": "threats", "val": 15},
     {"id": "ai_catastrophe", "label": "AI Catastrophe", "group": "threats", "val": 12},
     {"id": "civilizational_collapse", "label": "Civilizational Collapse", "group": "threats", "val": 12},

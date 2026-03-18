@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Regenerative Movement Critique - INTERACTIVE</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d1117; overflow: hidden; font-family: Arial, sans-serif; }
+    svg { width: 100vw; height: 100vh; }
+    
+    .node { cursor: pointer; }
+    .node:hover circle { filter: brightness(1.3); }
+    .node text { fill: #fff; font-size: 8px; text-anchor: middle; pointer-events: none; }
+    .link { stroke: rgba(255,255,255,0.2); stroke-width: 1; }
+    
+    #info {
+      position: fixed; top: 10px; left: 10px;
+      background: rgba(0,0,0,0.85); color: #fff;
+      padding: 15px; border-radius: 8px; max-width: 280px;
+      z-index: 100;
+    }
+    #info h3 { color: #f39c12; margin: 0 0 5px 0; }
+    #info p { color: #888; font-size: 11px; margin: 0; }
+    
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; font-size: 9px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  </style>
+</head>
+<body>
+  <div id="info">
+    <h3>Regenerative Movement Critique</h3>
+    <p>45 nodes / 66 links. Drag bubbles. Scroll to zoom.</p>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="background:#f39c12"></span>Central</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#e74c3c"></span>Core</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#e67e22"></span>External</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#9b59b6"></span>Justice</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#3498db"></span>History</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#1abc9c"></span>Dynamics</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#2ecc71"></span>Framework</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#e91e63"></span>Meta</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#00bcd4"></span>Mindset</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#f1c40f"></span>Action</div>
+    </div>
+  </div>
+
+  <svg id="svg"></svg>
+
+  <script>
+    const colors = {
+      central:'#f39c12',core:'#e74c3c',external:'#e67e22',justice:'#9b59b6',
+      history:'#3498db',dynamics:'#1abc9c',framework:'#2ecc71',meta:'#e91e63',
+      mindset:'#00bcd4',action:'#f1c40f'
+    };
+
+    const nodes = [
+      {id:"regen-movement",label:"Regenerative Movement",group:"central",val:50,x:800,y:450},
+      {id:"love-peace-avoidance",label:"Love & Peace Avoidance",group:"core",val:30,x:300,y:200},
+      {id:"inhumane-dark-side",label:"Inhumane Dark Side",group:"core",val:25,x:200,y:350},
+      {id:"dirty-laundry",label:"Washing Dirty Laundry",group:"core",val:28,x:350,y:450},
+      {id:"aesthetics-only",label:"Regen = Aesthetics",group:"core",val:22,x:450,y:550},
+      {id:"corporate-coopt",label:"Corporate Co-optation",group:"external",val:28,x:200,y:500},
+      {id:"nike",label:"Nike",group:"external",val:12,x:150,y:580},
+      {id:"starbucks",label:"Starbucks",group:"external",val:12,x:180,y:620},
+      {id:"nestle",label:"Nestle",group:"external",val:12,x:220,y:600},
+      {id:"regen-washing",label:"Regen-Washing",group:"external",val:24,x:280,y:580},
+      {id:"kiss-ground",label:"Kiss the Ground",group:"external",val:15,x:320,y:620},
+      {id:"social-justice-gap",label:"Social Justice Gap",group:"justice",val:28,x:1300,y:200},
+      {id:"bipoc-exclusion",label:"BIPOC Exclusion",group:"justice",val:20,x:1250,y:120},
+      {id:"indigenous-appropriation",label:"Indigenous Appropriation",group:"justice",val:20,x:1380,y:130},
+      {id:"land-dispossession",label:"Land Dispossession",group:"justice",val:18,x:1400,y:200},
+      {id:"exploitation-blindspot",label:"Exploitation Blindspot",group:"justice",val:24,x:1380,y:300},
+      {id:"community-failure",label:"Community Failure 90%",group:"history",val:30,x:1300,y:450},
+      {id:"new-harmony",label:"New Harmony 1825",group:"history",val:15,x:1200,y:380},
+      {id:"fruitlands",label:"Fruitlands 1843",group:"history",val:15,x:1280,y:350},
+      {id:"shakers",label:"Shakers",group:"history",val:15,x:1400,y:380},
+      {id:"communes-60s",label:"1960s Communes",group:"history",val:15,x:1380,y:520},
+      {id:"hierarchy-repro",label:"Hierarchy Reproduction",group:"history",val:22,x:1200,y:500},
+      {id:"power-struggles",label:"Power Struggles",group:"history",val:18,x:1250,y:550},
+      {id:"exclusion-dynamics",label:"Exclusionary Dynamics",group:"history",val:18,x:1350,y:550},
+      {id:"unresolved-conflict",label:"Unresolved Conflict",group:"history",val:16,x:1150,y:450},
+      {id:"opt-out-privilege",label:"Opt-Out Privilege",group:"dynamics",val:22,x:550,y:180},
+      {id:"systems-change",label:"Political Resistance",group:"dynamics",val:18,x:650,y:120},
+      {id:"integration-question",label:"Integration Question",group:"dynamics",val:20,x:700,y:220},
+      {id:"solidarity",label:"Solidarity",group:"dynamics",val:16,x:600,y:250},
+      {id:"deep-adaptation",label:"Deep Adaptation",group:"framework",val:28,x:1450,y:80},
+      {id:"reconciliation",label:"Reconciliation",group:"framework",val:22,x:1500,y:40},
+      {id:"relinquishment",label:"Relinquishment",group:"framework",val:18,x:1550,y:60},
+      {id:"restoration",label:"Restoration",group:"framework",val:18,x:1550,y:100},
+      {id:"resilience",label:"Resilience",group:"framework",val:16,x:1500,y:120},
+      {id:"climate-collapse",label:"Climate Collapse",group:"framework",val:15,x:1450,y:40},
+      {id:"the-problem",label:"THE PROBLEM: Avoiding Truth",group:"meta",val:35,x:600,y:450},
+      {id:"the-dilemma",label:"THE DILEMMA: AI No Pain",group:"meta",val:30,x:450,y:350},
+      {id:"ai-limitation",label:"AI Limitation",group:"meta",val:20,x:350,y:280},
+      {id:"lived-experience",label:"Lived Experience",group:"meta",val:22,x:400,y:420},
+      {id:"optimism",label:"Optimism",group:"mindset",val:15,x:180,y:180},
+      {id:"nostalgia",label:"Nostalgia",group:"mindset",val:15,x:120,y:250},
+      {id:"denial",label:"Denial",group:"mindset",val:15,x:150,y:450},
+      {id:"suppressed-truths",label:"SUPPRESSED TRUTHS",group:"action",val:25,x:850,y:650},
+      {id:"visualization",label:"Visualization",group:"action",val:18,x:750,y:700},
+      {id:"future-inquiry",label:"Future Inquiry",group:"action",val:20,x:950,y:700}
+    ];
+
+    const links = [
+      {s:"regen-movement",t:"love-peace-avoidance"},{s:"regen-movement",t:"inhumane-dark-side"},
+      {s:"regen-movement",t:"dirty-laundry"},{s:"regen-movement",t:"aesthetics-only"},
+      {s:"regen-movement",t:"corporate-coopt"},{s:"regen-movement",t:"social-justice-gap"},
+      {s:"regen-movement",t:"community-failure"},{s:"regen-movement",t:"the-problem"},
+      {s:"dirty-laundry",t:"love-peace-avoidance"},{s:"dirty-laundry",t:"corporate-coopt"},
+      {s:"dirty-laundry",t:"community-failure"},{s:"love-peace-avoidance",t:"optimism"},
+      {s:"love-peace-avoidance",t:"nostalgia"},{s:"love-peace-avoidance",t:"denial"},
+      {s:"love-peace-avoidance",t:"the-problem"},{s:"corporate-coopt",t:"nike"},
+      {s:"corporate-coopt",t:"starbucks"},{s:"corporate-coopt",t:"nestle"},
+      {s:"corporate-coopt",t:"regen-washing"},{s:"corporate-coopt",t:"exploitation-blindspot"},
+      {s:"regen-washing",t:"kiss-ground"},{s:"social-justice-gap",t:"bipoc-exclusion"},
+      {s:"social-justice-gap",t:"indigenous-appropriation"},{s:"social-justice-gap",t:"land-dispossession"},
+      {s:"social-justice-gap",t:"exploitation-blindspot"},{s:"community-failure",t:"new-harmony"},
+      {s:"community-failure",t:"fruitlands"},{s:"community-failure",t:"shakers"},
+      {s:"community-failure",t:"communes-60s"},{s:"community-failure",t:"hierarchy-repro"},
+      {s:"community-failure",t:"power-struggles"},{s:"community-failure",t:"exclusion-dynamics"},
+      {s:"community-failure",t:"unresolved-conflict"},{s:"opt-out-privilege",t:"regen-movement"},
+      {s:"opt-out-privilege",t:"integration-question"},{s:"integration-question",t:"solidarity"},
+      {s:"integration-question",t:"systems-change"},{s:"deep-adaptation",t:"climate-collapse"},
+      {s:"deep-adaptation",t:"reconciliation"},{s:"deep-adaptation",t:"relinquishment"},
+      {s:"deep-adaptation",t:"restoration"},{s:"deep-adaptation",t:"resilience"},
+      {s:"deep-adaptation",t:"community-failure"},{s:"deep-adaptation",t:"the-problem"},
+      {s:"the-problem",t:"love-peace-avoidance"},{s:"the-problem",t:"suppressed-truths"},
+      {s:"the-problem",t:"deep-adaptation"},{s:"the-dilemma",t:"regen-movement"},
+      {s:"the-dilemma",t:"the-problem"},{s:"the-dilemma",t:"ai-limitation"},
+      {s:"the-dilemma",t:"lived-experience"},{s:"ai-limitation",t:"lived-experience"},
+      {s:"ai-limitation",t:"aesthetics-only"},{s:"suppressed-truths",t:"corporate-coopt"},
+      {s:"suppressed-truths",t:"bipoc-exclusion"},{s:"suppressed-truths",t:"indigenous-appropriation"},
+      {s:"suppressed-truths",t:"community-failure"},{s:"suppressed-truths",t:"love-peace-avoidance"},
+      {s:"suppressed-truths",t:"regen-washing"},{s:"future-inquiry",t:"suppressed-truths"},
+      {s:"future-inquiry",t:"the-problem"},{s:"visualization",t:"regen-movement"}
+    ];
+
+    const nodeMap = {};
+    nodes.forEach(n => nodeMap[n.id] = n);
+
+    const svg = document.getElementById('svg');
+    svg.setAttribute('viewBox', '0 0 1600 900');
+
+    // Draw links
+    links.forEach(l => {
+      const s = nodeMap[l.s], t = nodeMap[l.t];
+      if(s && t) {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', s.x); line.setAttribute('y1', s.y);
+        line.setAttribute('x2', t.x); line.setAttribute('y2', t.y);
+        line.setAttribute('class', 'link');
+        svg.appendChild(line);
+      }
+    });
+
+    // Draw nodes
+    const nodeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    nodes.forEach(n => {
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      g.setAttribute('class', 'node');
+      g.setAttribute('transform', 'translate(' + n.x + ',' + n.y + ')');
+      
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('r', n.val / 2.5);
+      circle.setAttribute('fill', colors[n.group] || '#666');
+      
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('dy', n.val / 2.5 + 10);
+      text.textContent = n.label.substring(0, 15);
+      
+      g.appendChild(circle);
+      g.appendChild(text);
+      nodeGroup.appendChild(g);
+    });
+    svg.appendChild(nodeGroup);
+
+    // Drag
+    let dragging = null;
+    svg.addEventListener('mousedown', e => {
+      const pt = svg.createSVGPoint();
+      pt.x = e.clientX; pt.y = e.clientY;
+      const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+      nodes.forEach(n => {
+        const d = Math.sqrt((n.x - svgP.x)**2 + (n.y - svgP.y)**2);
+        if(d < n.val/2.5 + 10) dragging = n;
+      });
+    });
+    svg.addEventListener('mousemove', e => {
+      if(dragging) {
+        const pt = svg.createSVGPoint();
+        pt.x = e.clientX; pt.y = e.clientY;
+        const svgP = pt.matrixTransform(svg.getCTM().inverse());
+        dragging.x = svgP.x;
+        dragging.y = svgP.y;
+        update();
+      }
+    });
+    svg.addEventListener('mouseup', () => dragging = null);
+
+    function update() {
+      const gs = svg.querySelectorAll('.node');
+      gs.forEach((g, i) => {
+        g.setAttribute('transform', 'translate(' + nodes[i].x + ',' + nodes[i].y + ')');
+      });
+      const ls = svg.querySelectorAll('.link');
+      ls.forEach((line, i) => {
+        const s = nodeMap[links[i].s], t = nodeMap[links[i].t];
+        if(s && t) {
+          line.setAttribute('x1', s.x); line.setAttribute('y1', s.y);
+          line.setAttribute('x2', t.x); line.setAttribute('y2', t.y);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
