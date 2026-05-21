@@ -25,6 +25,7 @@ jobs:
         with:
           ref: gh-pages
           fetch-depth: 1
+          submodules: false
           sparse-checkout: |
             genesis-graph.json
             index.html
