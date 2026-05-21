@@ -2,9 +2,7 @@ name: Deploy Genesis Brain Visualizer
 
 on:
   push:
-    branches: [genesis-brain-pages]
-    paths:
-      - 'skills/artifacts/semantic-graph-viz/**'
+    branches: [gh-pages]
   workflow_dispatch:
 
 permissions:
@@ -17,13 +15,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Deploying Genesis Brain Visualizer"
+        with:
+          ref: gh-pages
+          fetch-depth: 1
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: 'skills/artifacts/semantic-graph-viz'
+          path: '.'
       - uses: actions/configure-pages@v4
       - uses: actions/deploy-pages@v4
